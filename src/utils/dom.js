@@ -13,7 +13,7 @@ export const states = {
 /*
  * Add modal + overlay to DOM
  */
-export const init = () => {
+export const init = (target) => {
   if (typeof document === 'undefined') {
     console.error('SweetAlert2 requires document to initialize')
     return
@@ -22,7 +22,13 @@ export const init = () => {
   const container = document.createElement('div')
   container.className = swalClasses.container
   container.innerHTML = sweetHTML
-  document.body.appendChild(container)
+
+  let targetElement = document.querySelector(target)
+  if (!targetElement) {
+    console.warn(`SweetAlert2: Can't find the target "${target}"`)
+    targetElement = document.body
+  }
+  targetElement.appendChild(container)
 
   const modal = getModal()
   const input = getChildByClass(modal, swalClasses.input)
